@@ -5,13 +5,6 @@ import Elm.Kernel.Scheduler exposing (binding, fail, succeed)
 */
 
 
-/// _FFI_log : a -> a
-function _FFI_log(object) {
-    console.log(object);
-    return object;
-}
-
-
 /// _FFI_function : List ( String, Value ) -> String -> Task Value Value
 var _FFI_function = F2(function(functionArguments, functionBody) {
     return _Scheduler_binding(function(callback) {
@@ -46,7 +39,6 @@ var _FFI_function = F2(function(functionArguments, functionBody) {
         }
         catch(functionError)
         {
-            console.log(functionError)
             callback(_Scheduler_fail(functionError));
         }
     });

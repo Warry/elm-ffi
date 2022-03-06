@@ -8,15 +8,15 @@ import Task exposing (Task)
 main =
     Task.sequence
         [ fetchJson "/elm.json"
-            |> Task.map FFI.log
+            |> Task.andThen log
         , windowWidth
-            |> Task.map FFI.log
+            |> Task.andThen log
 
         --, noAccessToElmFunctions
         --, noImports
         --, syntaxErrorAreErrorsToo
         ]
-        |> FFI.run
+        |> run
 
 
 fetchJson : String -> Task Value Value
@@ -29,6 +29,15 @@ fetchJson url =
         if (!res.ok) throw res.statusText
         return res.json()
     })
+    """
+
+
+log val =
+    FFI.function
+        [ ( "val", val )
+        ]
+        """
+    console.log(val)
     """
 
 
@@ -74,3 +83,24 @@ syntaxErrorAreErrorsToo =
     return "forgot quote?
         //>> Err { "name": "SyntaxError", "message": \"\"\" string literal contains an unescaped line break" }
     """
+
+
+
+-- HELPERS
+
+
+run : Task a b -> TaskProgram
+run task =
+    Platform.worker
+        { init =
+            always
+                ( ()
+                , Task.attempt (always (Ok ())) task
+                )
+        , update = \_ _ -> ( (), Cmd.none )
+        , subscriptions = always Sub.none
+        }
+
+
+type alias TaskProgram =
+    Program () () (Result () ())

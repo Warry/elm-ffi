@@ -1,11 +1,8 @@
-module FFI exposing (function, log, run)
+module FFI exposing (function)
 
 {-| Library for creating Javascript FFI safely.
 
-
-# FFI
-
-@docs function, log, run
+@docs function
 
 -}
 
@@ -13,9 +10,10 @@ import Json.Decode exposing (Value)
 import Task exposing (Task)
 
 
-{-| Create a Promise from JS code (as `String`), then apply it with arguments (as `List ( String, Value )`), get the result into a `Task`.
+{-| Create a Task with JS code from Elm
 
-If you return a JS `Promise` it will wait for the result, the task returns the value otherwise.
+If you return a JS `Promise` it will wait for the result,
+otherwise the task result is the return value.
 
     fetchJson : String -> Task Value Value
     fetchJson url =
@@ -24,9 +22,7 @@ If you return a JS `Promise` it will wait for the result, the task returns the v
             ]
             """
             return fetch(_url_).then((res)=> {
-                if (!res.isOk) throw "oh noes :("
-                    //-> Err { "name": "Error", "message": "oh noes :(" }
-
+                if (!res.ok) throw res.statusText
                 return res.json()
             })
             """
@@ -35,29 +31,3 @@ If you return a JS `Promise` it will wait for the result, the task returns the v
 function : List ( String, Value ) -> String -> Task Value Value
 function =
     Elm.Kernel.FFI.function
-
-
-{-| Logging natively
--}
-log : a -> a
-log =
-    Elm.Kernel.FFI.log
-
-
-{-| Run a task as a worker
--}
-run : Task a b -> TaskProgram
-run task =
-    Platform.worker
-        { init =
-            always
-                ( ()
-                , Task.attempt (always (Ok ())) task
-                )
-        , update = \_ _ -> ( (), Cmd.none )
-        , subscriptions = always Sub.none
-        }
-
-
-type alias TaskProgram =
-    Program () () (Result () ())
