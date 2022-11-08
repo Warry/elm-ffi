@@ -1,0 +1,25 @@
+{
+  "name": "elm-ffi",
+  "version": "1.0.0",
+  "description": "elm-ffi polyfill",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Warry/elm-ffi.git"
+  },
+  "keywords": [
+    "elm"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Warry/elm-ffi/issues"
+  },
+  "homepage": "https://github.com/Warry/elm-ffi#readme"
+}
