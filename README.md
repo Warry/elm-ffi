@@ -12,7 +12,8 @@ This should work where modern javascript works: browsers, node, deno, bun...
 Install both Elm & JS dependencies:
 
     elm install Warry/elm-ffi
-    npm install Warry/elm-ffi --save
+    npm install elm-ffi --save
+    or cdn: https://cdn.jsdelivr.net/npm/elm-ffi@1.0.0
 
 Apply the polyfill before initialiazing your Elm app:
 
