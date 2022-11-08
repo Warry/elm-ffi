@@ -1,7 +1,7 @@
 {
     "type": "package",
     "name": "Warry/elm-ffi",
-    "summary": "Safely create JS FFI in Elm",
+    "summary": "Create and call asynchronous javascript functions from Elm",
     "license": "BSD-3-Clause",
     "version": "1.0.0",
     "exposed-modules": [
