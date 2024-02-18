@@ -41,7 +41,7 @@ read code =
         |> Result.withDefault (Encode.string haveYouSetup)
 
 
-{-| Create a JS aync function from Elm, with its parameters
+{-| Create a JS async function from Elm, with its parameters
 
     fetchJson : { url: String } -> Task Error Value
     fetchJson =
@@ -147,9 +147,9 @@ type alias Error =
 
 -}
 fail : String -> String -> Task Error a
-fail title message =
+fail name message =
     Encode.object
-        [ ( "name", Encode.string title )
+        [ ( "name", Encode.string name )
         , ( "message", Encode.string message )
         ]
         |> Task.fail
